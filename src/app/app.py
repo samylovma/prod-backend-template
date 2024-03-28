@@ -36,7 +36,7 @@ def create_app() -> Litestar:
     auth = SessionAuth[User, ServerSideSessionBackend](
         retrieve_user_handler=retrieve_user_handler,
         session_backend_config=ServerSideSessionConfig(),
-        exclude=["/schema", "/users", "/access"],
+        exclude=["/schema", "/users", "/access/login", "/access/signup"],
     )
     return Litestar(
         route_handlers=[controllers.UserController, controllers.AccessController],
