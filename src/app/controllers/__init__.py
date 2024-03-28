@@ -1,3 +1,7 @@
-__all__ = ("UserController",)
+__all__ = (
+    "UserController",
+    "AccessController",
+)
 
+from .access import AccessController
 from .users import UserController
