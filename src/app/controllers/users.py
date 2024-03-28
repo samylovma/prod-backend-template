@@ -5,8 +5,7 @@ from litestar import Controller, get, post
 from litestar.di import Provide
 
 from app.dependencies import provide_user_service
-from app.dtos import UserReadDTO
-from app.models import User
+from app.models import User, UserReadDTO
 from app.schemas import UserCreate
 from app.services import UserService
 

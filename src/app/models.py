@@ -1,6 +1,8 @@
+from typing import Annotated
 from uuid import UUID, uuid4
 
 from advanced_alchemy.base import CommonTableAttributes, orm_registry
+from litestar.contrib.sqlalchemy.dto import SQLAlchemyDTO, SQLAlchemyDTOConfig
 from sqlalchemy import LargeBinary
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
@@ -14,3 +16,16 @@ class User(Base):
     first_name: Mapped[str]
     last_name: Mapped[str]
     hashed_password: Mapped[bytes] = mapped_column(LargeBinary())
+
+
+UserReadDTO = SQLAlchemyDTO[
+    Annotated[
+        User,
+        SQLAlchemyDTOConfig(
+            exclude={
+                "hashed_password",
+            },
+            rename_strategy="camel",
+        ),
+    ]
+]
