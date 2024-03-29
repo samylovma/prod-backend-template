@@ -1,4 +1,4 @@
-FROM python:3.12-alpine AS builder
+FROM docker.io/python:3.12-alpine AS builder
 
 RUN apk add --no-cache curl
 
@@ -12,10 +12,10 @@ COPY src/ src/
 RUN $PDM_HOME/bin/pdm sync --no-editable --production
 
 
-FROM python:3.12-alpine
+FROM docker.io/python:3.12-alpine
 
 COPY --from=builder /opt/app /opt/app
 
 ENV LITESTAR_APP=app.app:create_app
 
-CMD ["/opt/app/.venv/bin/litestar", "run", "--port=$SERVER_PORT", "--host=$SERVER_HOST"]
+CMD ["/opt/app/.venv/bin/litestar", "run"]
