@@ -22,7 +22,7 @@ class AccessController(Controller):
         request: Request[Any, Any, Any],
         user_service: UserService,
     ) -> None:
-        user = await user_service.get(data.id)
+        user = await user_service.authenticate(id_=data.id, password=data.password)
         request.set_session({"user_id": user.id})
 
     @post("/logout", status_codes=HTTP_200_OK)
