@@ -39,7 +39,11 @@ def create_app() -> Litestar:
         exclude=["/schema", "/users", "/access/login", "/access/signup"],
     )
     return Litestar(
-        route_handlers=[controllers.UserController, controllers.AccessController],
+        route_handlers=[
+            controllers.UserController,
+            controllers.AccessController,
+            controllers.MeController,
+        ],
         on_app_init=[auth.on_app_init],
         plugins=[
             SQLAlchemyPlugin(
