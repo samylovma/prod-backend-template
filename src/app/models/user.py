@@ -1,21 +1,19 @@
 from typing import Annotated
 from uuid import UUID, uuid4
 
-from advanced_alchemy.base import CommonTableAttributes, orm_registry
+from base import Base
+from group import Group
 from litestar.contrib.sqlalchemy.dto import SQLAlchemyDTO, SQLAlchemyDTOConfig
 from sqlalchemy import LargeBinary
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-
-
-class Base(CommonTableAttributes, DeclarativeBase):
-    registry = orm_registry
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from user_to_group import association_table
 
 
 class User(Base):
     id: Mapped[UUID] = mapped_column(default=uuid4, primary_key=True, unique=True)
-    first_name: Mapped[str]
-    last_name: Mapped[str]
+    login: Mapped[str]
     hashed_password: Mapped[bytes] = mapped_column(LargeBinary())
+    children: Mapped[list[Group]] = relationship(secondary=association_table)
 
 
 UserReadDTO = SQLAlchemyDTO[
